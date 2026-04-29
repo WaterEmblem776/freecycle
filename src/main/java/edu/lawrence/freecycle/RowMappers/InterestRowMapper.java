@@ -14,7 +14,7 @@ public class InterestRowMapper implements RowMapper<Interest>{
         i.setInterestId(row.getInt("id"));
         i.setInterestItemId(row.getInt("itemid"));
         i.setInterestUserId(row.getInt("userid"));
-        i.setSelectionStatus(row.getBoolean("status"));
+        i.setSelectionStatus(row.getBoolean("isselected"));
         return i;
     }
 }

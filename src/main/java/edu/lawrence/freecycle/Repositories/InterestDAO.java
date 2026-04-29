@@ -24,8 +24,11 @@ public class InterestDAO {
     {
         String sql = "insert into interests(id, itemId, userId, isSelected) values (?, ?, ?, ?)";
 
+        //We need to make sure that no two ids are the same. Hence: randomness
+        int random = (int)(Math.random()*20000);
+
         jdbcTemplate.update(sql,
-            interest.getInterestId(),
+            random,
             interest.getInterestItemId(),
             interest.getInterestUserId(),
             interest.getSelectionStatus() //This is a boolean, hopefully it'll just return TRUE OR FALSE. I'm unsure though.

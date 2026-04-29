@@ -14,8 +14,8 @@ public class TransferRowMapper implements RowMapper<Transfer> {
         t.setTransferId(row.getInt("id"));
         t.setTransferItemId(row.getInt("itemid"));
         t.setDonorId(row.getInt("donorid"));
-        t.setRecipientId(row.getInt("recipientid"));
-        t.setSiteName(row.getString("sitename"));
+        t.setRecipientId(row.getInt("recipientId"));
+        t.setSiteName(row.getString("site"));
         t.setTransferTime(row.getString("time"));
         return t;
     }

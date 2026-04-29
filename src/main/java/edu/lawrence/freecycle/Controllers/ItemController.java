@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,8 +35,8 @@ public class ItemController {
     }
 
     //Removing an offered item
-    @DeleteMapping(params={"itemid"})
-    public void cancel(@RequestParam("itemid") int itemid)
+    @DeleteMapping("/{itemid}")
+    public void cancel(@PathVariable("itemid") int itemid)
     {
         dao.cancel(itemid);
     }
@@ -48,8 +49,8 @@ public class ItemController {
     }
 
     //Finding one particular item by id.
-    @GetMapping(params={"itemid"})
-    public Item findItem(@RequestParam("itemid") int itemid) 
+    @GetMapping({"/{itemid}"})
+    public Item findItem(@PathVariable("itemid") int itemid) 
     {
         return dao.findItem(itemid);
     }

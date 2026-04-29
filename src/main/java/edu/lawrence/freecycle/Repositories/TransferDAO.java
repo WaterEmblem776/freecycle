@@ -19,8 +19,11 @@ public class TransferDAO {
         //We intentionally don't fill in Site or Time. These will be updated by one of the two users later.
         String sql = "insert into transfers(id, itemid, donorid, recipientid) values (?, ?, ?, ?)";
 
+        //We need to make sure that no two ids are the same. Hence: randomness
+        int random = (int)(Math.random()*20000);
+
         jdbcTemplate.update(sql,
-            transfer.getTransferId(),
+            random,
             transfer.getTransferItemId(),
             transfer.getDonorId(),
             transfer.getRecipientId()

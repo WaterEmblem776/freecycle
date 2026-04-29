@@ -27,8 +27,8 @@ CREATE TABLE `transfers` (
   `itemid` int DEFAULT NULL,
   `donorid` int DEFAULT NULL,
   `recipientId` int DEFAULT NULL,
-  `status` varchar(50) DEFAULT NULL,
-  `transfertime` varchar(50) DEFAULT NULL
+  `site` varchar(50) DEFAULT NULL,
+  `time` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
