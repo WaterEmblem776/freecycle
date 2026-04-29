@@ -124,4 +124,13 @@ public class ItemDAO {
         return jdbcTemplate.query(sql, new ItemRowMapper(), constructJSONArrayFromList(tags));
     }
 
+    //This method changes the status of an item from "t" to "a", allowing you to reopen an item after a transfer was cancelled.
+    public void reopenItem(int itemId)
+    {
+        String sql = "UPDATE items SET status='a' WHERE id=?";
+        jdbcTemplate.update(sql,
+             itemId
+            );
+    }
+
 }

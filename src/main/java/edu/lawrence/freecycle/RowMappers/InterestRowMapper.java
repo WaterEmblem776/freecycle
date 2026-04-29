@@ -11,10 +11,10 @@ public class InterestRowMapper implements RowMapper<Interest>{
     @Override
     public Interest mapRow(ResultSet row, int rowNum) throws SQLException {
         Interest i = new Interest();
-        i.setInterestId(row.getInt("id"));
-        i.setInterestItemId(row.getInt("itemid"));
-        i.setInterestUserId(row.getInt("userid"));
-        i.setSelectionStatus(row.getBoolean("isselected"));
+        i.setId(row.getInt("id"));
+        i.setItemId(row.getInt("itemid"));
+        i.setUserId(row.getInt("userid"));
+        i.setIsSelected(row.getBoolean("isselected"));
         return i;
     }
 }

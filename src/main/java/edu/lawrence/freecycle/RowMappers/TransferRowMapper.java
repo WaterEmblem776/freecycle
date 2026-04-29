@@ -12,11 +12,11 @@ public class TransferRowMapper implements RowMapper<Transfer> {
     public Transfer mapRow(ResultSet row, int rowNum) throws SQLException {
         Transfer t = new Transfer();
         t.setTransferId(row.getInt("id"));
-        t.setTransferItemId(row.getInt("itemid"));
+        t.setItemId(row.getInt("itemid"));
         t.setDonorId(row.getInt("donorid"));
         t.setRecipientId(row.getInt("recipientId"));
-        t.setSiteName(row.getString("site"));
-        t.setTransferTime(row.getString("time"));
+        t.setSite(row.getString("site"));
+        t.setTime(row.getString("time"));
         return t;
     }
 }

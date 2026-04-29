@@ -29,9 +29,9 @@ public class InterestDAO {
 
         jdbcTemplate.update(sql,
             random,
-            interest.getInterestItemId(),
-            interest.getInterestUserId(),
-            interest.getSelectionStatus() //This is a boolean, hopefully it'll just return TRUE OR FALSE. I'm unsure though.
+            interest.getItemId(),
+            interest.getUserId(),
+            interest.getIsSelected() //This is a boolean, hopefully it'll just return TRUE OR FALSE. I'm unsure though.
         );
     }
 
