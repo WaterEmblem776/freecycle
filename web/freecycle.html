@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<title>Freecycle System</title>
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+	</head>
+	<body>
+		<div class="container">
+			<div id="landingdiv">
+				<h3>Welcome to the Freecycle System</h3>
+				<p><button id="doLogin" class="btn btn-primary">Log In</button></p>
+			</div>
+			<div id="logindiv">
+				<fieldset>
+					<legend>Log in</legend>
+					<div class="row">
+						<label for="user" class="control-label col-sm-2">User name:</label>
+						<div class="col-sm-10"><input type="text" class="form-control" id="user" /></div>
+					</div>
+					<div class="row">
+						<label for="password" class="control-label col-sm-2">Password:</label>
+						<div class="col-sm-10"><input type="password" class="form-control" id="password" /></div>
+					</div>
+					<div class="row">
+						<div class="col-sm-offset-2 col-sm-10"><button id="login" class="btn btn-primary">Log In</button></div>
+					</div>
+				</fieldset>
+			</div>
+			<div id="maindiv">
+				<h3>Your requests</h3>
+				<ul id="jobs">
+				</ul>
+				<p><button id="toCreate" class="btn btn-primary">Post a new item</button>
+			</div>
+			<div id="jobdiv">
+				<fieldset>
+					<legend>Post a new item</legend>
+					<div class="row">
+						<label for="jobdescription" class="control-label col-sm-2">Description:</label>
+						<div class="col-sm-10"><input type="text" class="form-control" id="jobdescription" /></div>
+					</div>
+					<div class="row">
+						<label for="jobdate" class="control-label col-sm-2">Date:</label>
+						<div class="col-sm-10"><input type="text" class="form-control" id="jobdate" /></div>
+					</div>
+					<div class="row">
+						<label for="joblocation" class="control-label col-sm-2">Location:</label>
+						<div class="col-sm-10"><input type="text" class="form-control" id="joblocation" /></div>
+					</div>
+
+					<p><button id="createjob" class="btn btn-primary">Post Job</button><span id="jobsuccess"></span></p>
+				</fieldset>
+			</div>
+
+			  <script src="freecycle.js"></script>
+		</div>
+	</body>
+</html>
