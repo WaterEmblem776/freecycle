@@ -2,6 +2,7 @@ package edu.lawrence.freecycle.Controllers;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,8 +55,25 @@ public class TransferController {
         dao.completeTransfer(transferId);
     }
 
+    //Find a transfer by user
+    @GetMapping("/{userId}")
+    public Transfer findTransferById(@PathVariable("userId") int userId)
+    {
+        return dao.findById(userId);
+    }
 
+    //Find a transfer by site
+    @GetMapping("/{site}")
+    public Transfer findTransferBySite(@PathVariable("site") String site)
+    {
+        return dao.findBySite(site);
+    }
 
-
+    //Find a transfer by site
+    @GetMapping("/{time}")
+    public Transfer findTransferByTime(@PathVariable("time") String time)
+    {
+        return dao.findByTime(time);
+    }
 
 }

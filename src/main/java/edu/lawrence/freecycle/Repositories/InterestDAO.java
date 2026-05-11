@@ -23,6 +23,7 @@ public class InterestDAO {
     public void save(Interest interest)
     {
         String sql = "insert into interests(id, itemId, userId, isSelected) values (?, ?, ?, ?)";
+        String isSelected = "FALSE";
 
         //We need to make sure that no two ids are the same. Hence: randomness
         int random = (int)(Math.random()*20000);
@@ -31,7 +32,7 @@ public class InterestDAO {
             random,
             interest.getItemId(),
             interest.getUserId(),
-            interest.getIsSelected() //This is a boolean, hopefully it'll just return TRUE OR FALSE. I'm unsure though.
+            isSelected //We don't want the user setting this.
         );
     }
 

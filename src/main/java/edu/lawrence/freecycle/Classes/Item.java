@@ -56,6 +56,7 @@ public class Item {
         this.description = description;
     }
 
+    //Status should be a at the start and t if a transfer is happening
     public String getStatus()
     {
         return this.status;

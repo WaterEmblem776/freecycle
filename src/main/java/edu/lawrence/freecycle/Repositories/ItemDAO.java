@@ -25,6 +25,7 @@ public class ItemDAO {
     public void save(Item item)
     {
         String sql = "insert into items(id, donorid, name, description, status, tags) values (?, ?, ?, ?, ?, ?)";
+        String startingStatus = "a";
 
         //We need to make sure that no two ids are the same. Hence: randomness
         int random = (int)(Math.random()*20000);
@@ -34,7 +35,7 @@ public class ItemDAO {
             item.getDonorId(),
             item.getName(),
             item.getDescription(),
-            item.getStatus(),
+            startingStatus, //We don't want the user setting this.
             constructJSONArrayFromList(item.getTags())
         );
 
@@ -90,7 +91,7 @@ public class ItemDAO {
         //And finally complete the JSON_ARRAY with a closed paranthesis
         tagList = tagList + ")";
         return tagList;
-        Still happy with this and wondering if it'll come in handy later. */
+        Still happy with this code and wondering if it'll come in handy later. */
     } 
 
     //There's a bunch of different methods below that let a user search for an item in different ways.

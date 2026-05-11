@@ -34,7 +34,7 @@ public class TransferDAO {
         int itemId = transfer.getItemId();
 
         //Then we can go to the item in the database and change its status
-        sql = "UPDATE items SET status='a' WHERE id=?";
+        sql = "UPDATE items SET status='t' WHERE id=?";
         jdbcTemplate.update(sql, itemId);
     }
 
@@ -48,34 +48,6 @@ public class TransferDAO {
             time,
             transferId
         );
-    }
-
-    //As well as a way to delete a transfer (deselected recipient)
-    public void deselectRecipient (int transferId)
-    {
-        //First get the item id from the transferid
-        String sql = "SELECT itemid FROM transfers where id=?";
-        int itemId = jdbcTemplate.queryForObject(sql, Integer.class, transferId);
-
-        //Then we can delete the transfer
-        sql = "DELETE FROM transfers WHERE id=?";
-        jdbcTemplate.update(sql,
-            transferId
-        );
-        
-        //And finally use the itemId from earlier to make its parent Item available again.
-        sql = "UPDATE items SET status='a' WHERE id=?";
-        jdbcTemplate.update(sql, itemId);
-        //This doesn't work because it involves a SELECT statement in a method called by the DELETE method. 
-    }
-
-
-    //Find all transfers associated with a user.
-    public Transfer findById(int userId) 
-    {
-	    String sql = "SELECT * FROM transfers where donorid=? OR recipientid=?";
-        RowMapper<Transfer> rowMapper = new TransferRowMapper();
-        return jdbcTemplate.queryForObject(sql, rowMapper, userId, userId);
     }
 
     //This deletes all transfers and the original item
@@ -98,6 +70,51 @@ public class TransferDAO {
         );
 
     }
+
+    //and this serves as a way to delete a transfer (deselected recipient)
+    public void deselectRecipient (int transferId)
+    {
+        //First get the item id from the transferid
+        String sql = "SELECT itemid FROM transfers where id=?";
+        int itemId = jdbcTemplate.queryForObject(sql, Integer.class, transferId);
+
+        //Then we can delete the transfer
+        sql = "DELETE FROM transfers WHERE id=?";
+        jdbcTemplate.update(sql,
+            transferId
+        );
+        
+        //And finally use the itemId from earlier to make its parent Item available again.
+        sql = "UPDATE items SET status='a' WHERE id=?";
+        jdbcTemplate.update(sql, itemId);
+    }
+
+    //Find all transfers associated with a user.
+    public Transfer findById(int userId) 
+    {
+	    String sql = "SELECT * FROM transfers where donorid=? OR recipientid=?";
+        RowMapper<Transfer> rowMapper = new TransferRowMapper();
+        return jdbcTemplate.queryForObject(sql, rowMapper, userId, userId);
+    }
+
+    //Find all transfers associated with a site.
+    public Transfer findBySite(String site) 
+    {
+	    String sql = "SELECT * FROM transfers where site=?";
+        RowMapper<Transfer> rowMapper = new TransferRowMapper();
+        return jdbcTemplate.queryForObject(sql, rowMapper, site);
+    }
+
+    //Find all transfers associated with a time.
+    public Transfer findByTime(String time) 
+    {
+	    String sql = "SELECT * FROM transfers where time=?";
+        RowMapper<Transfer> rowMapper = new TransferRowMapper();
+        return jdbcTemplate.queryForObject(sql, rowMapper, time);
+    }
+
+    
+    
     
 
 
