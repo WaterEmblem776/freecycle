@@ -19,50 +19,75 @@ public class TransferDAO {
         //We intentionally don't fill in Site or Time. These will be updated by one of the two users later.
         String sql = "insert into transfers(id, itemid, donorid, recipientid) values (?, ?, ?, ?)";
 
+        //We need to make sure that no two ids are the same. Hence: randomness
+        int random = (int)(Math.random()*20000);
+
         jdbcTemplate.update(sql,
-            transfer.getTransferId(),
-            transfer.getTransferItemId(),
+            random,
+            transfer.getItemId(),
             transfer.getDonorId(),
             transfer.getRecipientId()
         );
 
         //We then update the item's status so that it no longer shows up when searched.
         //We first need to find the itemid from the transfer
-        int itemId = transfer.getTransferItemId();
+        int itemId = transfer.getItemId();
 
         //Then we can go to the item in the database and change its status
-        sql = "UPDATE items SET status=a WHERE id=?";
+        sql = "UPDATE items SET status='t' WHERE id=?";
         jdbcTemplate.update(sql, itemId);
     }
 
     //We then need to add a way for users to update the transfer once it shows up
-    public void addSetting(String site, String time)
+    public void addSetting(String site, String time, int transferId)
     {
-        String sql = "UPDATE transfers SET site=?, transfertime=?";
+        String sql = "UPDATE transfers SET site=?, time=? WHERE id=?";
 
         jdbcTemplate.update(sql,
             site,
-            time
+            time,
+            transferId
         );
     }
 
-    //As well as a way to delete a transfer (deselected recipient)
-    public void deselectRecipient (int transferId)
+    //This deletes all transfers and the original item
+    public void completeTransfer(int transferId)
     {
-        String sql = "DELETE FROM transfers WHERE id=?";
+        //First get the item id from the transferid (again)
+        String sql = "SELECT itemid FROM transfers where id=?";
+        int itemId = jdbcTemplate.queryForObject(sql, Integer.class, transferId);
 
+        //Then delete the transfer
+        sql = "DELETE FROM transfers WHERE id=?";
         jdbcTemplate.update(sql,
             transferId
         );
 
-        //This is pretty much the same as lines 33-37. We just have the transfer id instead of the object to work with initially.
-        sql = "SELECT itemid FROM transfers where id=?";
-        int itemId = jdbcTemplate.update(sql, transferId);
+        //And finally remove the item
+        sql = "DELETE FROM items where id=?";
+        jdbcTemplate.update(sql,
+            itemId
+        );
 
-        sql = "UPDATE items SET status=a WHERE id=?";
-        jdbcTemplate.update(sql, itemId);
     }
 
+    //and this serves as a way to delete a transfer (deselected recipient)
+    public void deselectRecipient (int transferId)
+    {
+        //First get the item id from the transferid
+        String sql = "SELECT itemid FROM transfers where id=?";
+        int itemId = jdbcTemplate.queryForObject(sql, Integer.class, transferId);
+
+        //Then we can delete the transfer
+        sql = "DELETE FROM transfers WHERE id=?";
+        jdbcTemplate.update(sql,
+            transferId
+        );
+        
+        //And finally use the itemId from earlier to make its parent Item available again.
+        sql = "UPDATE items SET status='a' WHERE id=?";
+        jdbcTemplate.update(sql, itemId);
+    }
 
     //Find all transfers associated with a user.
     public Transfer findById(int userId) 
@@ -72,16 +97,25 @@ public class TransferDAO {
         return jdbcTemplate.queryForObject(sql, rowMapper, userId, userId);
     }
 
-    //This deletes all transfers 
-    public void completeTransfer(int transferId)
+    //Find all transfers associated with a site.
+    public Transfer findBySite(String site) 
     {
-        String sql = "DELETE FROM transfers WHERE id=?";
-
-        jdbcTemplate.update(sql,
-            transferId
-        );
-
+	    String sql = "SELECT * FROM transfers where site=?";
+        RowMapper<Transfer> rowMapper = new TransferRowMapper();
+        return jdbcTemplate.queryForObject(sql, rowMapper, site);
     }
+
+    //Find all transfers associated with a time.
+    public Transfer findByTime(String time) 
+    {
+	    String sql = "SELECT * FROM transfers where time=?";
+        RowMapper<Transfer> rowMapper = new TransferRowMapper();
+        return jdbcTemplate.queryForObject(sql, rowMapper, time);
+    }
+
+    
+    
+    
 
 
 }

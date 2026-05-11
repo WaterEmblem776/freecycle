@@ -7,8 +7,8 @@ public class Transfer {
     private int itemId;
     private int donorId;
     private int recipientId;
-    private String siteName;
-    private String transferTime; //I want this to be in ISO_LOCAL_DATE_TIME format, but it's a bonus project.
+    private String site;
+    private String time; //I want this to be in ISO_LOCAL_DATE_TIME format, but it's a bonus project.
 
     //Blank constructor
     public Transfer() {};
@@ -24,12 +24,12 @@ public class Transfer {
         this.transferId = transferId;
     }
 
-    public int getTransferItemId()
+    public int getItemId()
     {
         return this.itemId;
     }
 
-    public void setTransferItemId(int itemId)
+    public void setItemId(int itemId)
     {
         this.itemId = itemId;
     }
@@ -54,24 +54,24 @@ public class Transfer {
         this.recipientId = recipientId;
     }
 
-    public String getSiteName()
+    public String getSite()
     {
-        return this.siteName;
+        return this.site;
     }
 
-    public void setSiteName(String siteName)
+    public void setSite(String siteName)
     {
-        this.siteName = siteName;
+        this.site = siteName;
     }
 
-    public String getTransferTime() 
+    public String getTime() 
     {
-        return transferTime;
+        return time;
     }
 
-    public void setTransferTime(String transferTime)
+    public void setTime(String transferTime)
     {
-        this.transferTime = transferTime;
+        this.time = transferTime;
     }
 
 }

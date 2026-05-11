@@ -21,6 +21,7 @@ public class ItemRowMapper implements RowMapper<Item> {
         i.setDonorId(row.getInt("donorid"));
         i.setItemName(row.getString("name"));
         i.setDescription(row.getString("description"));
+        i.setStatus(row.getString("status"));
         i.setTags(convertArrayToList(row.getString("tags")));
         return i;
     }

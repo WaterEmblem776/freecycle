@@ -3,7 +3,7 @@ package edu.lawrence.freecycle.Classes;
 public class Interest {
 
     //Member variables
-    private int interestId;
+    private int id;
     private int itemId;
     private int userId;
     private boolean isSelected = false; //Will always be false at the start.
@@ -12,42 +12,42 @@ public class Interest {
     public Interest() {}
 
     //Getter and setter methods
-    public int getInterestId()
+    public int getId()
     {
-        return this.interestId;
+        return this.id;
     }
 
-    public void setInterestId(int interestId)
+    public void setId(int id)
     {
-        this.interestId = interestId;
+        this.id = id;
     }
 
-    public int getInterestItemId()
+    public int getItemId()
     {
         return this.itemId;
     }
 
-    public void setInterestItemId(int itemId)
+    public void setItemId(int itemId)
     {
         this.itemId = itemId;
     }
 
-    public int getInterestUserId()
+    public int getUserId()
     {
         return this.userId;
     }
 
-    public void setInterestUserId(int userId)
+    public void setUserId(int userId)
     {
         this.userId = userId;
     }
 
-    public boolean getSelectionStatus() 
+    public boolean getIsSelected() 
     {
         return this.isSelected;
     }
 
-    public void setSelectionStatus(boolean isSelected)
+    public void setIsSelected(boolean isSelected)
     {
         this.isSelected = isSelected;
     }

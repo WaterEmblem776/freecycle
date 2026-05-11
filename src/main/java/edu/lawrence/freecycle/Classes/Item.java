@@ -9,7 +9,7 @@ public class Item {
     private int donorId;
     private String name;
     private String description;
-    private char status; //a for available, s for selected recipient, d for donated
+    private String status; //a for available, s for selected recipient, d for donated
     private List<String> tags = new ArrayList<>();
 
     //Blank constructor
@@ -36,7 +36,7 @@ public class Item {
         this.donorId = donorId;
     }
 
-    public String getItemName()
+    public String getName()
     {
         return this.name;
     }
@@ -56,12 +56,13 @@ public class Item {
         this.description = description;
     }
 
-    public char getStatus()
+    //Status should be a at the start and t if a transfer is happening
+    public String getStatus()
     {
         return this.status;
     }
 
-    public void setStatus(char status)
+    public void setStatus(String status)
     {
         this.status = status;
     }

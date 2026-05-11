@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import edu.lawrence.freecycle.Classes.Item;
 import edu.lawrence.freecycle.RowMappers.ItemRowMapper;
 
@@ -23,15 +25,20 @@ public class ItemDAO {
     public void save(Item item)
     {
         String sql = "insert into items(id, donorid, name, description, status, tags) values (?, ?, ?, ?, ?, ?)";
+        String startingStatus = "a";
+
+        //We need to make sure that no two ids are the same. Hence: randomness
+        int random = (int)(Math.random()*20000);
 
         jdbcTemplate.update(sql,
-            item.getItemId(),
+            random,
             item.getDonorId(),
-            item.getItemName(),
+            item.getName(),
             item.getDescription(),
-            item.getStatus(),
+            startingStatus, //We don't want the user setting this.
             constructJSONArrayFromList(item.getTags())
         );
+
     }
 
     //We also need a method to remove the offered item. This also removes all associated interests and/or transfers.
@@ -55,11 +62,19 @@ public class ItemDAO {
         );
         
     }
-
-
+    
     //This method pretty much just exists to convert lists of tags into a string that SQL will save as a JSON array.
     public String constructJSONArrayFromList (List<String> list) 
     {
+        try 
+        {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.writeValueAsString(list);
+        } catch (Exception e) 
+        {
+            throw new RuntimeException("List -> JSON array conversion failed");
+        }
+        /*
         String tagList = "JSON_ARRAY(";
 
         //We start by iterating through the entire list of tags
@@ -76,13 +91,14 @@ public class ItemDAO {
         //And finally complete the JSON_ARRAY with a closed paranthesis
         tagList = tagList + ")";
         return tagList;
-    }
+        Still happy with this code and wondering if it'll come in handy later. */
+    } 
 
     //There's a bunch of different methods below that let a user search for an item in different ways.
     //The first one just returns all available items.
     public List<Item> findItems()
     {
-        String sql = "select * from items where status=a";
+        String sql = "select * from items where status='a'";
         return jdbcTemplate.query(sql, new ItemRowMapper());
     }
 
@@ -97,16 +113,25 @@ public class ItemDAO {
     //This method returns all items put up by a specific user.
     public List<Item> findItemsByDonorId(int donorId)
     {
-        String sql = "select * from items where donorid=? AND where status=a";
+        String sql = "select * from items where donorid=? AND status='a'";
         return jdbcTemplate.query(sql, new ItemRowMapper(), donorId);
     }
 
     //This method returns all items with the tags in the query.
     public List<Item> findItemsByTags(List<String> tags)
     {
-        String sql = "select * from items where tags=? AND where status=a";
+        String sql = "select * from items where JSON_CONTAINS(tags, ?) AND status='a'";
 
         return jdbcTemplate.query(sql, new ItemRowMapper(), constructJSONArrayFromList(tags));
+    }
+
+    //This method changes the status of an item from "t" to "a", allowing you to reopen an item after a transfer was cancelled.
+    public void reopenItem(int itemId)
+    {
+        String sql = "UPDATE items SET status='a' WHERE id=?";
+        jdbcTemplate.update(sql,
+             itemId
+            );
     }
 
 }
