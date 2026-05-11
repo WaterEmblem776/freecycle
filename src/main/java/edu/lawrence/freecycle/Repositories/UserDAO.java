@@ -15,14 +15,14 @@ public class UserDAO {
 
     public User findByUsername(String userName) 
     {
-	    String sql = "SELECT * FROM users where username=?";
+	    String sql = "SELECT * FROM users WHERE username = ?";
         RowMapper<User> rowMapper = new UserRowMapper();
         return jdbcTemplate.queryForObject(sql, rowMapper, userName);
     }
 
     public User findById(int id) 
     {
-        String sql = "SELECT * FROM users where id=?";
+        String sql = "SELECT * FROM users WHERE userid = ?";
         RowMapper<User> rowMapper = new UserRowMapper();
         return jdbcTemplate.queryForObject(sql, rowMapper, id);
     }
@@ -31,7 +31,7 @@ public class UserDAO {
     public void createUser (User user)
     {
         //We take in a username and password and create a new user entry in the table
-        String sql = "INSERT INTO users(id, username, password, fullname, email, phone, bio) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users(userid, username, password, fullname, email, phone, bio) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         //We need to make sure that no two ids are the same. Hence: randomness
         int random = (int)(Math.random()*20000);
