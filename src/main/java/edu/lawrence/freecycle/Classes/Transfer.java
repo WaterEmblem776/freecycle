@@ -1,77 +1,68 @@
 package edu.lawrence.freecycle.Classes;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "transfers")
 public class Transfer {
 
-    //Member variables
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int transferId;
+
     private int itemId;
     private int donorId;
     private int recipientId;
     private String site;
-    private String time; //I want this to be in ISO_LOCAL_DATE_TIME format, but it's a bonus project.
+    private String time;
 
-    //Blank constructor
-    public Transfer() {};
+    public Transfer() {}
 
-    //Getter and setter methods
-    public int getTransferId()
-    {
-        return this.transferId;
+    public int getTransferId() {
+        return transferId;
     }
 
-    public void setTransferId(int transferId)
-    {
+    public void setTransferId(int transferId) {
         this.transferId = transferId;
     }
 
-    public int getItemId()
-    {
-        return this.itemId;
+    public int getItemId() {
+        return itemId;
     }
 
-    public void setItemId(int itemId)
-    {
+    public void setItemId(int itemId) {
         this.itemId = itemId;
     }
 
-    public int getDonorId()
-    {
-        return this.donorId;
+    public int getDonorId() {
+        return donorId;
     }
 
-    public void setDonorId(int donorId)
-    {
+    public void setDonorId(int donorId) {
         this.donorId = donorId;
     }
 
-    public int getRecipientId()
-    {
-        return this.recipientId;
+    public int getRecipientId() {
+        return recipientId;
     }
 
-    public void setRecipientId(int recipientId)
-    {
+    public void setRecipientId(int recipientId) {
         this.recipientId = recipientId;
     }
 
-    public String getSite()
-    {
-        return this.site;
+    public String getSite() {
+        return site;
     }
 
-    public void setSite(String siteName)
-    {
-        this.site = siteName;
+    public void setSite(String site) {
+        this.site = site;
     }
 
-    public String getTime() 
-    {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(String transferTime)
-    {
-        this.time = transferTime;
+    public void setTime(String time) {
+        this.time = time;
     }
-
 }

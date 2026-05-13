@@ -2,77 +2,62 @@ package edu.lawrence.freecycle.Controllers;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import edu.lawrence.freecycle.Classes.Item;
-import edu.lawrence.freecycle.Repositories.ItemDAO;
+import edu.lawrence.freecycle.Services.ItemService;
 
 @RestController
 @RequestMapping("/items")
 @CrossOrigin(origins="*")
 public class ItemController {
-    private final ItemDAO dao;
 
-    public ItemController(ItemDAO dao) 
-    {
-        this.dao = dao;
+    private final ItemService service;
+
+    public ItemController(ItemService service) {
+        this.service = service;
     }
 
-    //First up: saving new items.
+    // Save new item
     @PostMapping
-    public int save(@RequestBody Item item) 
-    {
-        dao.save(item);
+    public int save(@RequestBody Item item) {
+        service.save(item);
         return 1;
     }
 
-    //Removing an offered item
+    // Delete item
     @DeleteMapping("/{itemid}")
-    public void cancel(@PathVariable("itemid") int itemid)
-    {
-        dao.cancel(itemid);
+    public void cancel(@PathVariable int itemid) {
+        service.cancel(itemid);
     }
 
-    //Finding all available items.
-    @GetMapping()
-    public List<Item> findItems() 
-    {
-        return dao.findItems();
+    // Find all items
+    @GetMapping
+    public List<Item> findItems() {
+        return service.findItems();
     }
 
-    //Finding one particular item by id.
-    @GetMapping({"/{itemid}"})
-    public Item findItem(@PathVariable("itemid") int itemid) 
-    {
-        return dao.findItem(itemid);
+    // Find one item
+    @GetMapping("/{itemid}")
+    public Item findItem(@PathVariable int itemid) {
+        return service.findItem(itemid);
     }
 
-    //Finding all items posted by one user.
+    // Find items by donor
     @GetMapping(params={"donorid"})
-    public List<Item> findItemsByDonorId(@RequestParam("donorid") int donorid) 
-    {
-        return dao.findItemsByDonorId(donorid);
+    public List<Item> findItemsByDonorId(@RequestParam int donorid) {
+        return service.findItemsByDonorId(donorid);
     }
 
-    //Finding all items that match the tags provided.
+    // Find items by tags
     @GetMapping(params={"tags"})
-    public List<Item> findItemsByTags(@RequestParam("tags") List<String> tags) 
-    {
-        return dao.findItemsByTags(tags);
+    public List<Item> findItemsByTags(@RequestParam List<String> tags) {
+        return service.findItemsByTags(tags);
     }
 
+    // Reopen item
     @PatchMapping("/{id}")
-    public void makeItemVisible(@PathVariable("id") int id)
-    {
-        dao.reopenItem(id);
+    public void makeItemVisible(@PathVariable int id) {
+        service.reopenItem(id);
     }
 }

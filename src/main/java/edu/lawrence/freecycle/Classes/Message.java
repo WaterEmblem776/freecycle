@@ -15,10 +15,8 @@ public class Message {
     private int receiverId;
     private boolean isRead;
 
-    // blank constructor
     public Message() {}
 
-    // ID
     public int getId() {
         return id;
     }
@@ -27,7 +25,6 @@ public class Message {
         this.id = id;
     }
 
-    // message
     public String getMessage() {
         return message;
     }
@@ -36,7 +33,6 @@ public class Message {
         this.message = message;
     }
 
-    // senderId
     public int getSenderId() {
         return senderId;
     }
@@ -45,7 +41,6 @@ public class Message {
         this.senderId = senderId;
     }
 
-    // receiverId
     public int getReceiverId() {
         return receiverId;
     }
@@ -54,12 +49,11 @@ public class Message {
         this.receiverId = receiverId;
     }
 
-    // isRead
     public boolean isRead() {
         return isRead;
     }
 
-    public void setRead(boolean read) {
-        isRead = read;
+    public void setRead(boolean isRead) {
+        this.isRead = isRead;
     }
 }

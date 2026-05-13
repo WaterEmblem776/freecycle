@@ -1,55 +1,50 @@
 package edu.lawrence.freecycle.Classes;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "interests")
 public class Interest {
 
-    //Member variables
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private int itemId;
     private int userId;
-    private boolean isSelected = false; //Will always be false at the start.
+    private boolean isSelected = false;
 
-    //Blank constructor
     public Interest() {}
 
-    //Getter and setter methods
-    public int getId()
-    {
-        return this.id;
+    public int getId() {
+        return id;
     }
 
-    public void setId(int id)
-    {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public int getItemId()
-    {
-        return this.itemId;
+    public int getItemId() {
+        return itemId;
     }
 
-    public void setItemId(int itemId)
-    {
+    public void setItemId(int itemId) {
         this.itemId = itemId;
     }
 
-    public int getUserId()
-    {
-        return this.userId;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUserId(int userId)
-    {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    public boolean getIsSelected() 
-    {
-        return this.isSelected;
+    public boolean getIsSelected() {
+        return isSelected;
     }
 
-    public void setIsSelected(boolean isSelected)
-    {
+    public void setIsSelected(boolean isSelected) {
         this.isSelected = isSelected;
     }
-
 }

@@ -1,79 +1,65 @@
 package edu.lawrence.freecycle.Controllers;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import edu.lawrence.freecycle.Classes.Transfer;
-import edu.lawrence.freecycle.Repositories.TransferDAO;
+import edu.lawrence.freecycle.Services.TransferService;
 
 @RestController
 @RequestMapping("/transfers")
 @CrossOrigin(origins="*")
 public class TransferController {
-    private final TransferDAO dao;
 
-    //Constructor.
-    public TransferController(TransferDAO dao)
-    {
-        this.dao = dao;
+    private final TransferService service;
+
+    public TransferController(TransferService service) {
+        this.service = service;
     }
 
-    //Save new transfers
+    // Save new transfer
     @PostMapping
-    public int save(@RequestBody Transfer transfer) 
-    {
-        dao.save(transfer);
+    public int save(@RequestBody Transfer transfer) {
+        service.save(transfer);
         return 1;
     }
 
-    //This is used to update the site and time of the scheduled transfer.
+    // Update transfer site + time
     @PatchMapping(params={"transferId", "site", "time"})
-    public void update(@RequestParam(value="transferId") int transferId,@RequestParam(value="site") String site,@RequestParam(value="time") String time)
-    {
-        dao.addSetting(site, time, transferId);
+    public void update(
+            @RequestParam int transferId,
+            @RequestParam String site,
+            @RequestParam String time) {
+
+        service.update(transferId, site, time);
     }
 
-    //This method deletes a transfer and reopens the item to be searched for again.
+    // Delete transfer
     @DeleteMapping("/{transferId}")
-    public void deselect(@PathVariable("transferId") int transferId)
-    {
-        dao.deselectRecipient(transferId);
+    public void deselect(@PathVariable int transferId) {
+        service.deselect(transferId);
     }
 
-    //This deletes the transfer and the original item. Used when the item is given away for good.
+    // Complete transfer
     @DeleteMapping(params={"transferId"})
-    public void complete(@RequestParam(value="transferId") int transferId)
-    {
-        dao.completeTransfer(transferId);
+    public void complete(@RequestParam int transferId) {
+        service.complete(transferId);
     }
 
-    //Find a transfer by user
+    // Find by recipient
     @GetMapping("/{userId}")
-    public Transfer findTransferById(@PathVariable("userId") int userId)
-    {
-        return dao.findById(userId);
+    public Transfer findTransferById(@PathVariable int userId) {
+        return service.findByRecipientId(userId);
     }
 
-    //Find a transfer by site
-    @GetMapping("/{site}")
-    public Transfer findTransferBySite(@PathVariable("site") String site)
-    {
-        return dao.findBySite(site);
+    // Find by site
+    @GetMapping(params={"site"})
+    public Transfer findTransferBySite(@RequestParam String site) {
+        return service.findBySite(site);
     }
 
-    //Find a transfer by site
-    @GetMapping("/{time}")
-    public Transfer findTransferByTime(@PathVariable("time") String time)
-    {
-        return dao.findByTime(time);
+    // Find by time
+    @GetMapping(params={"time"})
+    public Transfer findTransferByTime(@RequestParam String time) {
+        return service.findByTime(time);
     }
-
 }

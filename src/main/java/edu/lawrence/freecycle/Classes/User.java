@@ -1,88 +1,77 @@
 package edu.lawrence.freecycle.Classes;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "users")
 public class User {
 
-    //Member variables
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
+
     private String username;
     private String password;
     private String fullName;
-    private String email; //Perhaps unnecessary with our own messaging system?
+    private String email;
     private String phone;
-    //private String address; Originally used to find meeting spots. Not necessary with our own messaging.
     private String bio;
 
-    //Blank constructor
     public User() {}
 
-    //Getter and Setter Methods
-    public int getUserId()
-    {
-        return this.userId;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUserId(int userId)
-    {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    public String getUsername()
-    {
-        return this.username;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUsername(String username)
-    {
+    public void setUsername(String username) {
         this.username = username;
     }
 
-    public String getPassword()
-    {
-        return this.password;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPassword(String password)
-    {
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getFullName()
-    {
-        return this.fullName;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFullName(String fullName)
-    {
+    public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
-    public String getEmail()
-    {
-        return this.email;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmail(String email)
-    {
+    public void setEmail(String email) {
         this.email = email;
     }
-
-    public String getPhone()
-    {
-        return this.phone;
+    
+    public String getPhone() {
+        return phone;
     }
 
-    public void setPhone(String phone)
-    {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
-
-    public String getBio()
-    {
-        return this.bio;
+    
+    public String getBio() {
+        return bio;
     }
 
-    public void setBio(String bio)
-    {
+    public void setBio(String bio) {
         this.bio = bio;
     }
 }
