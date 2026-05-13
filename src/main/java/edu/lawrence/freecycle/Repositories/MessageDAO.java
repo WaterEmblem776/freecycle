@@ -22,7 +22,7 @@ public class MessageDAO {
             sql,
             message.getMessage(),
             message.getSenderId(),
-            message.getRecieverId()
+            message.getReceiverId()
         );
     }
 

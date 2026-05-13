@@ -15,7 +15,7 @@ public class MessageRowMapper implements RowMapper<Message> {
 
         message.setMessage(rs.getString("message"));
         message.setSenderId(rs.getInt("senderid"));
-        message.setRecieverId(rs.getInt("recieverid"));
+        message.setReceiverId(rs.getInt("recieverid"));
 
         return message;
     }
