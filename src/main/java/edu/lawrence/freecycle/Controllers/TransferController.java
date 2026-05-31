@@ -1,8 +1,11 @@
 package edu.lawrence.freecycle.Controllers;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import edu.lawrence.freecycle.Classes.Transfer;
+import edu.lawrence.freecycle.Classes.User;
+import edu.lawrence.freecycle.Repositories.UserRepository;
 import edu.lawrence.freecycle.Services.TransferService;
 
 @RestController
@@ -11,15 +14,32 @@ import edu.lawrence.freecycle.Services.TransferService;
 public class TransferController {
 
     private final TransferService service;
+    private final UserRepository userRepository;
 
-    public TransferController(TransferService service) {
+    public TransferController(
+            TransferService service,
+            UserRepository userRepository) {
+
         this.service = service;
+        this.userRepository = userRepository;
     }
 
     // Save new transfer
     @PostMapping
-    public int save(@RequestBody Transfer transfer) {
+    public int save(
+            @RequestBody Transfer transfer,
+            Authentication auth) {
+
+        String username = auth.getName();
+
+        User user = userRepository
+                .findByUsername(username)
+                .orElseThrow();
+
+        transfer.setDonorId(user.getUserId());
+
         service.save(transfer);
+
         return 1;
     }
 
