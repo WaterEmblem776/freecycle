@@ -1,18 +1,18 @@
 package edu.lawrence.freecycle.Security;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
-
 import java.security.Key;
 import java.util.Date;
 
 import org.springframework.stereotype.Component;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+
 @Component
 public class JwtUtil {
 
-    // MUST be long enough and valid
     private final String SECRET =
             "thisIsASecretKeyForJwtAuthenticationSystem123456";
 
@@ -25,5 +25,24 @@ public class JwtUtil {
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    public String getUsernameFromToken(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.getSubject();
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            getUsernameFromToken(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
