@@ -2,9 +2,12 @@ package edu.lawrence.freecycle.Controllers;
 
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import edu.lawrence.freecycle.Classes.Item;
+import edu.lawrence.freecycle.Classes.User;
+import edu.lawrence.freecycle.Repositories.UserRepository;
 import edu.lawrence.freecycle.Services.ItemService;
 
 @RestController
@@ -13,15 +16,32 @@ import edu.lawrence.freecycle.Services.ItemService;
 public class ItemController {
 
     private final ItemService service;
+    private final UserRepository userRepository;
 
-    public ItemController(ItemService service) {
+    public ItemController(
+            ItemService service,
+            UserRepository userRepository) {
+
         this.service = service;
+        this.userRepository = userRepository;
     }
 
     // Save new item
     @PostMapping
-    public int save(@RequestBody Item item) {
+    public int save(
+            @RequestBody Item item,
+            Authentication auth) {
+
+        String username = auth.getName();
+
+        User user = userRepository
+                .findByUsername(username)
+                .orElseThrow();
+
+        item.setDonorId(user.getUserId());
+
         service.save(item);
+
         return 1;
     }
 

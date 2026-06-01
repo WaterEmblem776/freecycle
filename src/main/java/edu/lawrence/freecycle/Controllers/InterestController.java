@@ -2,9 +2,12 @@ package edu.lawrence.freecycle.Controllers;
 
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import edu.lawrence.freecycle.Classes.Interest;
+import edu.lawrence.freecycle.Classes.User;
+import edu.lawrence.freecycle.Repositories.UserRepository;
 import edu.lawrence.freecycle.Services.InterestService;
 
 @RestController
@@ -13,15 +16,32 @@ import edu.lawrence.freecycle.Services.InterestService;
 public class InterestController {
 
     private final InterestService service;
+    private final UserRepository userRepository;
 
-    public InterestController(InterestService service) {
+    public InterestController(
+            InterestService service,
+            UserRepository userRepository) {
+
         this.service = service;
+        this.userRepository = userRepository;
     }
 
     // Save new interest
     @PostMapping
-    public int save(@RequestBody Interest interest) {
+    public int save(
+            @RequestBody Interest interest,
+            Authentication auth) {
+
+        String username = auth.getName();
+
+        User user = userRepository
+                .findByUsername(username)
+                .orElseThrow();
+
+        interest.setUserId(user.getUserId());
+
         service.save(interest);
+
         return 1;
     }
 
