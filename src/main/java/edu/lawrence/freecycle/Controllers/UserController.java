@@ -1,6 +1,16 @@
 package edu.lawrence.freecycle.Controllers;
 
-import org.springframework.web.bind.annotation.*;
+import java.util.UUID;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import edu.lawrence.freecycle.Classes.User;
 import edu.lawrence.freecycle.Services.UserService;
@@ -17,14 +27,15 @@ public class UserController {
     }
 
     @GetMapping(params={"username", "password"})
-    public int checkLogin(@RequestParam String username, @RequestParam String password) {
+    public UUID checkLogin(@RequestParam String username, @RequestParam String password) {
         return service.checkLogin(username, password);
     }
 
-    @GetMapping("/{id}")
-    public User findById(@PathVariable int id) {
-        return service.findById(id);
-    }
+    //No longer needed - the user will never have their or anyone elses' UUID
+    //@GetMapping("/{id}")
+    //public User findById(@PathVariable UUID id) {
+    //    return service.findById(id);
+    //}
 
     @PostMapping
     public User createUser(@RequestBody User user) {
@@ -32,7 +43,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable int id) {
+    public void deleteUser(@PathVariable UUID id) {
         service.deleteUser(id);
     }
 }

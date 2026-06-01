@@ -1,20 +1,6 @@
 package edu.lawrence.freecycle.Classes;
 
-import java.util.UUID;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "users")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID userId;
+public class UserDTO {
 
     private String username;
     private String password;
@@ -23,15 +9,7 @@ public class User {
     private String phone;
     private String bio;
 
-    public User() {}
-
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public void setUserId(UUID userId) {
-        this.userId = userId;
-    }
+    public UserDTO() {}
 
     public String getUsername() {
         return username;
@@ -80,4 +58,5 @@ public class User {
     public void setBio(String bio) {
         this.bio = bio;
     }
+
 }

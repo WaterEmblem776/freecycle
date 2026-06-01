@@ -1,6 +1,10 @@
 package edu.lawrence.freecycle.Services;
 
+import java.util.UUID;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 import edu.lawrence.freecycle.Classes.User;
 import edu.lawrence.freecycle.Repositories.UserRepository;
@@ -14,29 +18,32 @@ public class UserService {
         this.repo = repo;
     }
 
-    public int checkLogin(String username, String password) {
-        User user = repo.findByUsername(username).orElse(null);
+    public UUID checkLogin(String username, String password) {
+        List<User> existing = repo.findByUsername(username);
 
-        if (user == null) {
-            return 0;
+        //If the user does not exist, return null
+        if (existing == null) {
+            return null;
         }
 
-        if (!user.getPassword().equals(password)) {
-            return 0;
+        //If the user does exist and their password does not match, return null
+        if (!existing.get(0).getPassword().equals(password)) {
+            return null;
         }
 
-        return user.getUserId();
+        return existing.get(0).getUserId();
     }
-
-    public User findById(int id) {
-        return repo.findById(id).orElse(null);
-    }
+    //This isn't needed - the user should never have access to 
+    //public User findById(UUID id) {
+    //    return repo.findById(id).orElse(null);
+    //}
 
     public User createUser(User user) {
+        Optional<User> maybeUser = repo.findById(user.getUserId());
         return repo.save(user);
     }
 
-    public void deleteUser(int id) {
+    public void deleteUser(UUID id) {
         repo.deleteById(id);
     }
 }
