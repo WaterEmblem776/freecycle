@@ -1,6 +1,7 @@
 package edu.lawrence.freecycle.Services;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class ItemService {
     }
 
     // Delete item
-    public void cancel(int itemId) {
+    public void cancel(UUID itemId) {
         repository.deleteById(itemId);
     }
 
@@ -32,12 +33,12 @@ public class ItemService {
     }
 
     // Find one item
-    public Item findItem(int itemId) {
+    public Item findItem(UUID itemId) {
         return repository.findById(itemId).orElse(null);
     }
 
     // Find all items by donor
-    public List<Item> findItemsByDonorId(int donorId) {
+    public List<Item> findItemsByDonorId(UUID donorId) {
         return repository.findByDonorId(donorId);
     }
 
@@ -46,13 +47,13 @@ public class ItemService {
         return repository.findAll();
     }
 
+    //This is now being handled in TransferService.
     // Reopen item
-    public void reopenItem(int id) {
-        Item item = repository.findById(id).orElse(null);
-
-        if (item != null) {
-            item.setStatus("a");
-            repository.save(item);
-        }
-    }
+    //public void reopenItem(UUID id) {
+    //    Item item = repository.findById(id).orElse(null);
+    
+//        if (item != null) {
+//            item.setStatus("a");
+//        }
+//    }
 }

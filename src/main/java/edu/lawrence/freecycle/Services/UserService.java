@@ -31,15 +31,16 @@ public class UserService {
             return null;
         }
 
+        //If their password matches, return the user ID???????
         return existing.get(0).getUserId();
     }
-    //This isn't needed - the user should never have access to 
+    //This isn't needed - the user should never have access to UUIDs
     //public User findById(UUID id) {
     //    return repo.findById(id).orElse(null);
     //}
 
     public User createUser(User user) {
-        Optional<User> maybeUser = repo.findById(user.getUserId());
+        //Optional<User> maybeUser = repo.findById(user.getUserId()); Used for unit testing, not necessary for our current assignment.
         return repo.save(user);
     }
 

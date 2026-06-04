@@ -2,33 +2,13 @@ package edu.lawrence.freecycle.Classes;
 
 import java.util.UUID;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "interests")
-public class Interest {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+public class InterestDTO {
 
     private UUID itemId;
     private UUID userId;
     private boolean isSelected = false;
 
-    public Interest() {}
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
+    public InterestDTO() {}
 
     public UUID getItemId() {
         return itemId;

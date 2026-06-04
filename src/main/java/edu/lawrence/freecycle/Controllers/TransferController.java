@@ -7,6 +7,10 @@ import edu.lawrence.freecycle.Classes.Transfer;
 import edu.lawrence.freecycle.Classes.User;
 import edu.lawrence.freecycle.Repositories.UserRepository;
 import edu.lawrence.freecycle.Services.TransferService;
+import edu.lawrence.freecycle.Services.ItemService;
+
+import java.util.UUID;
+import java.util.List;
 
 @RestController
 @RequestMapping("/transfers")
@@ -15,6 +19,7 @@ public class TransferController {
 
     private final TransferService service;
     private final UserRepository userRepository;
+
 
     public TransferController(
             TransferService service,
@@ -26,27 +31,30 @@ public class TransferController {
 
     // Save new transfer
     @PostMapping
-    public int save(
+    public Transfer save(
             @RequestBody Transfer transfer,
             Authentication auth) {
 
         String username = auth.getName();
 
-        User user = userRepository
-                .findByUsername(username)
-                .orElseThrow();
+        List<User> users = userRepository
+                .findByUsername(username);
 
-        transfer.setDonorId(user.getUserId());
+        //If we see that there's no users
+        if(users.size() == 0) {
+            throw new ResourceNotFoundException("No users found.");
+        }
 
-        service.save(transfer);
+        //transfer.setDonorId(users.get(0).getUserId()); I think this is incorrect
+        transfer.setRecipientId(users.get(0).getUserId());
 
-        return 1;
+        return service.save(transfer);
     }
 
     // Update transfer site + time
     @PatchMapping(params={"transferId", "site", "time"})
     public void update(
-            @RequestParam int transferId,
+            @RequestParam UUID transferId,
             @RequestParam String site,
             @RequestParam String time) {
 
@@ -55,19 +63,19 @@ public class TransferController {
 
     // Delete transfer
     @DeleteMapping("/{transferId}")
-    public void deselect(@PathVariable int transferId) {
+    public void deselect(@PathVariable UUID transferId) {
         service.deselect(transferId);
     }
 
     // Complete transfer
     @DeleteMapping(params={"transferId"})
-    public void complete(@RequestParam int transferId) {
+    public void complete(@RequestParam UUID transferId) {
         service.complete(transferId);
     }
 
     // Find by recipient
     @GetMapping("/{userId}")
-    public Transfer findTransferById(@PathVariable int userId) {
+    public Transfer findTransferById(@PathVariable UUID userId) {
         return service.findByRecipientId(userId);
     }
 

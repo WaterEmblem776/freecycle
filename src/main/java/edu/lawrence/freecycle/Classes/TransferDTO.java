@@ -2,35 +2,14 @@ package edu.lawrence.freecycle.Classes;
 
 import java.util.UUID;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "transfers")
-public class Transfer {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID transferId;
-
-    private UUID itemId;
+public class TransferDTO {
+     private UUID itemId;
     private UUID donorId;
     private UUID recipientId;
     private String site;
     private String time;
 
-    public Transfer() {}
-
-    public UUID getTransferId() {
-        return transferId;
-    }
-
-    public void setTransferId(UUID transferId) {
-        this.transferId = transferId;
-    }
+    public TransferDTO() {}
 
     public UUID getItemId() {
         return itemId;

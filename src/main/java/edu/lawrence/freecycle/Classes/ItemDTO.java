@@ -5,36 +5,23 @@ import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
-@Entity
-@Table(name = "items")
-public class Item {
+public class ItemDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID itemId;
-
-    private UUID donorId;
     private String name;
     private String description;
     private String status;
+    private UUID donorId;
 
     @ElementCollection
     private List<String> tags = new ArrayList<>();
 
-    public Item() {}
-
-    public UUID getItemId() {
-        return itemId;
+    public String getName() {
+        return name;
     }
 
-    public void setItemId(UUID itemId) {
-        this.itemId = itemId;
+    public void setItemName(String name) {
+        this.name = name;
     }
 
     public UUID getDonorId() {
@@ -43,14 +30,6 @@ public class Item {
 
     public void setDonorId(UUID donorId) {
         this.donorId = donorId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setItemName(String name) {
-        this.name = name;
     }
 
     public String getDescription() {
@@ -76,4 +55,5 @@ public class Item {
     public void setTags(List<String> tags) {
         this.tags = tags;
     }
+
 }

@@ -1,6 +1,7 @@
 package edu.lawrence.freecycle.Controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -24,12 +25,12 @@ public class MessageController {
     }
 
     @GetMapping("/{receiverId}")
-    public List<Message> getMessages(@PathVariable int receiverId) {
+    public List<Message> getMessages(@PathVariable UUID receiverId) {
         return service.getMessagesByReceiver(receiverId);
     }
 
     @PutMapping("/{id}/read")
-    public Message markAsRead(@PathVariable int id) {
+    public Message markAsRead(@PathVariable UUID id) {
         return service.markAsRead(id);
     }
 }

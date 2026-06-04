@@ -1,6 +1,7 @@
 package edu.lawrence.freecycle.Services;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -20,11 +21,11 @@ public class MessageService {
         return repo.save(message);
     }
 
-    public List<Message> getMessagesByReceiver(int receiverId) {
+    public List<Message> getMessagesByReceiver(UUID receiverId) {
         return repo.findByReceiverId(receiverId);
     }
 
-    public Message markAsRead(int id) {
+    public Message markAsRead(UUID id) {
         Message message = repo.findById(id).orElse(null);
 
         if (message != null) {

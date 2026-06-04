@@ -1,6 +1,7 @@
 package edu.lawrence.freecycle.Services;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -22,12 +23,12 @@ public class InterestService {
     }
 
     // Delete interest by id
-    public void withdraw(int interestId) {
+    public void withdraw(UUID interestId) {
         repository.deleteById(interestId);
     }
 
     // Find all interests for one item
-    public List<Interest> findInterests(int itemId) {
+    public List<Interest> findInterests(UUID itemId) {
         return repository.findByItemId(itemId);
     }
 }

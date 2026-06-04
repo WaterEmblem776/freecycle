@@ -2,34 +2,14 @@ package edu.lawrence.freecycle.Classes;
 
 import java.util.UUID;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+public class MessageDTO {
 
-@Entity
-@Table(name = "messages")
-public class Message {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
-
-    private String message;
+     private String message;
     private UUID senderId;
     private UUID receiverId;
     private boolean isRead;
 
-    public Message() {}
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
+    public MessageDTO() {}
 
     public String getMessage() {
         return message;
